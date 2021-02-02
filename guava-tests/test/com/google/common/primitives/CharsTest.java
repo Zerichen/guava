@@ -44,6 +44,23 @@ public class CharsTest extends TestCase {
   private static final char LEAST = Character.MIN_VALUE;
   private static final char GREATEST = Character.MAX_VALUE;
 
+  public static char[] ARRAY_BIG = initializeARRAY_BIG();
+  public static char[] ARRAY_BIG_REV = initializeARRAY_BIG_REV();
+  private static final char[] initializeARRAY_BIG() {
+    ARRAY_BIG = new char[10000];
+    for (char i = 0; i < ARRAY_BIG.length; i++) {
+      ARRAY_BIG[i] = i;
+    }
+    return ARRAY_BIG;
+  }
+
+  private static final char[] initializeARRAY_BIG_REV() {
+    ARRAY_BIG_REV = new char[10000];
+    for (char i = 0; i < ARRAY_BIG_REV.length; i++) {
+      ARRAY_BIG_REV[i] = (char)(ARRAY_BIG_REV.length - 1 - i);
+    }
+    return ARRAY_BIG_REV;
+  }
   private static final char[] VALUES = {LEAST, 'a', '\u00e0', '\udcaa', GREATEST};
 
   public void testHashCode() {
@@ -297,6 +314,12 @@ public class CharsTest extends TestCase {
     assertEquals("123", Chars.join("", '1', '2', '3'));
   }
 
+  public void testMyJoin() {
+    assertEquals("", Chars.join("",  EMPTY));
+    assertEquals("\0", Chars.join(",",  '\0'));
+  }
+
+
   public void testLexicographicalComparator() {
     List<char[]> ordered =
         Arrays.asList(
@@ -326,7 +349,12 @@ public class CharsTest extends TestCase {
     testReverse(new char[] {'1', '2'}, new char[] {'2', '1'});
     testReverse(new char[] {'3', '1', '1'}, new char[] {'1', '1', '3'});
     testReverse(new char[] {'A', '1', 'B', '2'}, new char[] {'2', 'B', '1', 'A'});
+    // new cases:
+    testReverse(ARRAY_BIG, ARRAY_BIG_REV);
+    testReverse(new char[] {'a', '1', 'b', '2'}, new char[] {'2', 'b', '1', 'a'});
+    testReverse(new char[] {'\0', '1', 'b', '2'}, new char[] {'2', 'b', '1', '\0'});
   }
+
 
   private static void testReverse(char[] input, char[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
@@ -456,4 +484,8 @@ public class CharsTest extends TestCase {
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Chars.class);
   }
+
+
 }
+
+

@@ -33,6 +33,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Unit test for {@link Doubles}.
@@ -240,6 +241,27 @@ public class DoublesTest extends TestCase {
     assertTrue(Double.isNaN(Doubles.min(VALUES)));
   }
 
+  public void testPartitionMin() {
+    // This test case will divide the Doubles.min input into five ranges: LEAST, Negative, Zero, Positive, MOST
+    // case where the input contains LEAST
+    assertEquals(LEAST, Doubles.min(LEAST));
+    assertEquals(LEAST, Doubles.min(LEAST, (double) -1));
+    assertEquals(LEAST, Doubles.min(LEAST, (double) -1, (double) 0));
+    assertEquals(LEAST, Doubles.min(LEAST, (double) -1, (double) 0, (double) 1));
+    assertEquals(LEAST, Doubles.min(LEAST, (double) -1, (double) 0, (double) 1), GREATEST));
+    // case where the input contains Negatives
+    assertEquals(-0.0, Doubles.min(-0.0, 0.0));
+    assertEquals(-1.0, Doubles.min(-1.0, -0.0, 0.0));
+    // case where the input contains Zero and Positive
+    assertEquals(0.0, Doubles.min(0.0, 1.0));
+    assertEquals(0.0, Doubles.min(0.0, 1.0, GREATEST));
+    // case where the input contains Positive and GREATEST
+    assertEquals(1.0, Doubles.min(1.0, GREATEST));
+    assertEquals(1.999, Doubles.min(1.999, 2.0, GREATEST));
+    // case where the input contains only GREATEST
+    assertEquals(GREATEST, Doubles.min(GREATEST));
+  }
+
   public void testConstrainToRange() {
     double tolerance = 1e-10;
     assertEquals(
@@ -274,6 +296,23 @@ public class DoublesTest extends TestCase {
         Arrays.equals(
             new double[] {(double) 1, (double) 2, (double) 3, (double) 4},
             Doubles.concat(ARRAY1, ARRAY234)));
+  }
+
+  public void testPartitionConcat() {
+    // This test case will divide the concat input into three part: no argument, one argument, more than one argument
+    // case where Doubles.concat receives no argument
+    assertTrue(Arrays.equals(EMPTY, Doubles.concat()));
+    // case where Doubles.concat receives exactly one argument
+    assertTrue(Arrays.equals(EMPTY, Doubles.concat(EMPTY)));
+    assertTrue(Arrays.equals(ARRAY1, Doubles.concat(ARRAY1)));
+    assertTrue(Arrays.equals(ARRAY234, Doubles.concat(ARRAY234)));
+    // case where Doubles.concat receives more than one argument
+    assertTrue(Arrays.equals(EMPTY, Doubles.concat(EMPTY, EMPTY, EMPTY)));
+    assertTrue(Arrays.equals(ARRAY1, Doubles.concat(EMPTY, ARRAY1, EMPTY)));
+    assertTrue(
+            Arrays.equals(
+                    new double[] {(double) 1, (double) 2, (double) 3, (double) 4, (double) 1},
+                    Doubles.concat(ARRAY1, ARRAY234, ARRAY1)));
   }
 
   public void testEnsureCapacity() {

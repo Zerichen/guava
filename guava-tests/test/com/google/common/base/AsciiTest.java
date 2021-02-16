@@ -20,6 +20,9 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Unit test for {@link Ascii}.
  *
@@ -151,4 +154,31 @@ public class AsciiTest extends TestCase {
     assertFalse("pa\u00dfword".equalsIgnoreCase("PASSWORD")); // [*]
     assertFalse(Ascii.equalsIgnoreCase("pa\u00dfword", "PASSWORD"));
   }
+
+  public void testToLowerCase_YuchenHu() {
+
+    CharSequence str1 = new CharSequence() {
+      @Override
+      public int length() {
+        return 1;
+      }
+
+      @Override
+      public char charAt(int index) {
+        return 0;
+      }
+
+      @Override
+      public CharSequence subSequence(int start, int end) {
+        return null;
+      }
+    };
+    assertFalse(str1.equals(Ascii.toLowerCase(str1)));
+    assertFalse(str1.equals(Ascii.toUpperCase(str1)));
+
+    CharSequence str2 = "hello";
+    assertTrue(str2.equals(Ascii.toLowerCase(str2)));
+    assertFalse(str2.equals(Ascii.toUpperCase(str2)));
+  }
+
 }

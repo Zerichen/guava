@@ -248,7 +248,7 @@ public class DoublesTest extends TestCase {
     assertEquals(LEAST, Doubles.min(LEAST, (double) -1));
     assertEquals(LEAST, Doubles.min(LEAST, (double) -1, (double) 0));
     assertEquals(LEAST, Doubles.min(LEAST, (double) -1, (double) 0, (double) 1));
-    assertEquals(LEAST, Doubles.min(LEAST, (double) -1, (double) 0, (double) 1), GREATEST));
+    assertEquals(LEAST, Doubles.min(LEAST, (double) -1, (double) 0, (double) 1, GREATEST));
     // case where the input contains Negatives
     assertEquals(-0.0, Doubles.min(-0.0, 0.0));
     assertEquals(-1.0, Doubles.min(-1.0, -0.0, 0.0));

@@ -16,40 +16,25 @@
 
 package com.google.common.math;
 
-import static com.google.common.collect.Iterables.get;
-import static com.google.common.collect.Iterables.size;
-import static com.google.common.math.MathTesting.ALL_DOUBLE_CANDIDATES;
-import static com.google.common.math.MathTesting.ALL_ROUNDING_MODES;
-import static com.google.common.math.MathTesting.ALL_SAFE_ROUNDING_MODES;
-import static com.google.common.math.MathTesting.DOUBLE_CANDIDATES_EXCEPT_NAN;
-import static com.google.common.math.MathTesting.FINITE_DOUBLE_CANDIDATES;
-import static com.google.common.math.MathTesting.FRACTIONAL_DOUBLE_CANDIDATES;
-import static com.google.common.math.MathTesting.INFINITIES;
-import static com.google.common.math.MathTesting.INTEGRAL_DOUBLE_CANDIDATES;
-import static com.google.common.math.MathTesting.NEGATIVE_INTEGER_CANDIDATES;
-import static com.google.common.math.MathTesting.POSITIVE_FINITE_DOUBLE_CANDIDATES;
-import static java.math.RoundingMode.CEILING;
-import static java.math.RoundingMode.DOWN;
-import static java.math.RoundingMode.FLOOR;
-import static java.math.RoundingMode.HALF_DOWN;
-import static java.math.RoundingMode.HALF_EVEN;
-import static java.math.RoundingMode.HALF_UP;
-import static java.math.RoundingMode.UNNECESSARY;
-import static java.math.RoundingMode.UP;
-import static java.util.Arrays.asList;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.primitives.Doubles;
 import com.google.common.testing.NullPointerTester;
+import junit.framework.TestCase;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
-import junit.framework.TestCase;
+
+import static com.google.common.collect.Iterables.get;
+import static com.google.common.collect.Iterables.size;
+import static com.google.common.math.MathTesting.*;
+import static java.math.RoundingMode.*;
+import static java.util.Arrays.asList;
 
 /**
  * Tests for {@code DoubleMath}.

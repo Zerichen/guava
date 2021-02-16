@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import junit.framework.TestCase;
 
+
 /** Unit tests for {@link LongAdder}. */
 public class LongAdderTest extends TestCase {
 
@@ -28,6 +29,8 @@ public class LongAdderTest extends TestCase {
    */
   public void testNulls() {}
 
+
+
   public void testOverflows() {
     LongAdder longAdder = new LongAdder();
     longAdder.add(Long.MAX_VALUE);
@@ -37,4 +40,33 @@ public class LongAdderTest extends TestCase {
     // See https://github.com/google/guava/issues/3503
     assertThat(longAdder.sum()).isEqualTo(-9223372036854775808L);
   }
+
+  public void testSumThenReset_YuchenHu() {
+    LongAdder longAdder = new LongAdder();
+    longAdder.add(1L);
+    assertThat(longAdder.sumThenReset()).isEqualTo(1L);
+    longAdder.decrement();
+
+    assertThat(longAdder.sumThenReset()).isEqualTo(-1L);
+  }
+
+  public void testReset_YuchenHu() {
+    LongAdder longAdder = new LongAdder();
+    longAdder.add(1L);
+    assertThat(longAdder.sum()).isEqualTo(1L);
+    longAdder.reset();
+    longAdder.add(1L);
+    assertThat(longAdder.sum()).isEqualTo(1L);
+  }
+
+  public void testValues_YuchenHu() {
+    LongAdder longAdder = new LongAdder();
+    longAdder.add(1L);
+    assertThat(longAdder.toString().equals("1"));
+    assertThat(longAdder.intValue() == 1);
+    assertThat(longAdder.floatValue() == (float)1);
+    assertThat(longAdder.longValue() == 1L);
+    assertThat(longAdder.doubleValue() == (double)1);
+  }
+
 }

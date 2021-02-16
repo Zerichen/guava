@@ -43,6 +43,7 @@ public class BooleansTest extends TestCase {
 
   private static final boolean[] VALUES = {false, true};
 
+
   public void testHashCode() {
     assertEquals(Boolean.TRUE.hashCode(), Booleans.hashCode(true));
     assertEquals(Boolean.FALSE.hashCode(), Booleans.hashCode(false));
@@ -171,6 +172,8 @@ public class BooleansTest extends TestCase {
     Comparator<boolean[]> comparator = Booleans.lexicographicalComparator();
     Helpers.testComparator(comparator, ordered);
   }
+
+
 
   @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {

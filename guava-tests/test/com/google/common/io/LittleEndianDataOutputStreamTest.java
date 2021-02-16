@@ -76,6 +76,7 @@ public class LittleEndianDataOutputStreamTest extends TestCase {
     assertEquals("Herby Derby", in.readUTF());
     assertEquals(0xBEBAFECA, Float.floatToIntBits(in.readFloat()));
     assertEquals(0xBEBAFECAEFBEADDEL, Double.doubleToLongBits(in.readDouble()));
+    out.close();
   }
 
   @SuppressWarnings("deprecation") // testing a deprecated method

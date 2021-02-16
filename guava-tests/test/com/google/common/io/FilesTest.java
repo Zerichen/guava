@@ -19,6 +19,7 @@ package com.google.common.io;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Hashing;
 import com.google.common.primitives.Bytes;
@@ -74,6 +75,7 @@ public class FilesTest extends IoTestCase {
     suite.addTestSuite(FilesTest.class);
     return suite;
   }
+
 
   public void testRoundTripSources() throws Exception {
     File asciiFile = getTestFile("ascii.txt");

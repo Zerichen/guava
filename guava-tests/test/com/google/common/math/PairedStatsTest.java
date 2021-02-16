@@ -55,6 +55,8 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
+import com.sun.javafx.scene.control.behavior.DatePickerBehavior;
 import junit.framework.TestCase;
 
 /**
@@ -64,6 +66,10 @@ import junit.framework.TestCase;
  * @author Pete Gillin
  */
 public class PairedStatsTest extends TestCase {
+
+  public void testEnsurePositive() {
+
+  }
 
   public void testCount() {
     assertThat(EMPTY_PAIRED_STATS.count()).isEqualTo(0);

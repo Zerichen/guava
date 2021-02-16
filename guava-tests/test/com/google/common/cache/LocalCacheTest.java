@@ -543,6 +543,9 @@ public class LocalCacheTest extends TestCase {
     assertSame(EntryFactory.WEAK_ACCESS_WRITE, EntryFactory.getFactory(Strength.WEAK, true, true));
   }
 
+
+
+
   // computation tests
 
   public void testCompute() throws ExecutionException {

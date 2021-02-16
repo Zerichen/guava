@@ -76,6 +76,8 @@ public class MapsTest extends TestCase {
 
   private static final Comparator<Integer> SOME_COMPARATOR = Collections.reverseOrder();
 
+
+
   public void testHashMap() {
     HashMap<Integer, Integer> map = Maps.newHashMap();
     assertEquals(Collections.emptyMap(), map);

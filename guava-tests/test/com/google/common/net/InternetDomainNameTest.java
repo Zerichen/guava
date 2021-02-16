@@ -21,11 +21,16 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import junit.framework.TestCase;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * {@link TestCase} for {@link InternetDomainName}.
@@ -448,6 +453,14 @@ public final class InternetDomainNameTest extends TestCase {
 
       assertEquals(expectedName, domain.toString());
     }
+  }
+
+  public void testDomainParts() {
+    InternetDomainName domain = InternetDomainName.from("mail.google.com");
+    List<String> list = new ArrayList<>(
+            Arrays.asList("mail", "google", "com"));
+    assertEquals(list, domain.parts());
+
   }
 
   public void testPublicSuffixExclusion() {

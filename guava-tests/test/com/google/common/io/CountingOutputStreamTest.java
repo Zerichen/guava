@@ -61,5 +61,6 @@ public class CountingOutputStreamTest extends IoTestCase {
     }
     assertEquals(written, out.size());
     assertEquals(written, counter.getCount());
+    counter.close();
   }
 }

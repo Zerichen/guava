@@ -160,7 +160,7 @@
  * <h2>Abstract implementations</h2>
  *
  * <ul>
- *   <li>{@link com.google.common.collect.AbstractIterator}
+ *   <li>{@link com.google.common.collect.}
  *   <li>{@link com.google.common.collect.AbstractSequentialIterator}
  *   <li>{@link com.google.common.collect.ImmutableCollection}
  *   <li>{@link com.google.common.collect.UnmodifiableIterator}

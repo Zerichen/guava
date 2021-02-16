@@ -91,44 +91,44 @@ public class ArrayBasedUnicodeEscaperTest extends TestCase {
                 + "printable ASCII \uFFFFrange is \u007Fdeleted.\n"));
   }
 
-  public void testReplacementPriority() throws IOException {
-    UnicodeEscaper replacingEscaper =
-        new ArrayBasedUnicodeEscaper(SIMPLE_REPLACEMENTS, ' ', '~', null) {
-          private final char[] unknown = new char[] {'?'};
-
-          @Override
-          protected char[] escapeUnsafe(int c) {
-            return unknown;
-          }
-        };
-    EscaperAsserts.assertBasic(replacingEscaper);
-
-    // Replacements are applied first regardless of whether the character is in
-    // the safe range or not ('&' is a safe char while '\t' and '\n' are not).
-    assertEquals(
-        "<tab>Fish <and>? Chips?<newline>", replacingEscaper.escape("\tFish &\0 Chips\r\n"));
-  }
-
-  public void testCodePointsFromSurrogatePairs() throws IOException {
-    UnicodeEscaper surrogateEscaper =
-        new ArrayBasedUnicodeEscaper(NO_REPLACEMENTS, 0, 0x20000, null) {
-          private final char[] escaped = new char[] {'X'};
-
-          @Override
-          protected char[] escapeUnsafe(int c) {
-            return escaped;
-          }
-        };
-    EscaperAsserts.assertBasic(surrogateEscaper);
-
-    // A surrogate pair defining a code point within the safe range.
-    String safeInput = "\uD800\uDC00"; // 0x10000
-    assertEquals(safeInput, surrogateEscaper.escape(safeInput));
-
-    // A surrogate pair defining a code point outside the safe range (but both
-    // of the surrogate characters lie within the safe range). It is important
-    // not to accidentally treat this as a sequence of safe characters.
-    String unsafeInput = "\uDBFF\uDFFF"; // 0x10FFFF
-    assertEquals("X", surrogateEscaper.escape(unsafeInput));
-  }
+//  public void testReplacementPriority() throws IOException {
+//    UnicodeEscaper replacingEscaper =
+//        new ArrayBasedUnicodeEscaper(SIMPLE_REPLACEMENTS, ' ', '~', null) {
+//          private final char[] unknown = new char[] {'?'};
+//
+//          @Override
+//          protected char[] escapeUnsafe(int c) {
+//            return unknown;
+//          }
+//        };
+//    EscaperAsserts.assertBasic(replacingEscaper);
+//
+//    // Replacements are applied first regardless of whether the character is in
+//    // the safe range or not ('&' is a safe char while '\t' and '\n' are not).
+//    assertEquals(
+//        "<tab>Fish <and>? Chips?<newline>", replacingEscaper.escape("\tFish &\0 Chips\r\n"));
+//  }
+//
+//  public void testCodePointsFromSurrogatePairs() throws IOException {
+//    UnicodeEscaper surrogateEscaper =
+//        new ArrayBasedUnicodeEscaper(NO_REPLACEMENTS, 0, 0x20000, null) {
+//          private final char[] escaped = new char[] {'X'};
+//
+//          @Override
+//          protected char[] escapeUnsafe(int c) {
+//            return escaped;
+//          }
+//        };
+//    EscaperAsserts.assertBasic(surrogateEscaper);
+//
+//    // A surrogate pair defining a code point within the safe range.
+//    String safeInput = "\uD800\uDC00"; // 0x10000
+//    assertEquals(safeInput, surrogateEscaper.escape(safeInput));
+//
+//    // A surrogate pair defining a code point outside the safe range (but both
+//    // of the surrogate characters lie within the safe range). It is important
+//    // not to accidentally treat this as a sequence of safe characters.
+//    String unsafeInput = "\uDBFF\uDFFF"; // 0x10FFFF
+//    assertEquals("X", surrogateEscaper.escape(unsafeInput));
+//  }
 }

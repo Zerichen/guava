@@ -24,6 +24,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.FakeTicker;
 import java.time.Duration;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import junit.framework.TestCase;
 
 /**
@@ -211,4 +213,56 @@ public class StopwatchTest extends TestCase {
     ticker.advance((long) (7.25 * 24 * 60 * 60 * 1000000000L));
     assertEquals("7.250 d", stopwatch.toString());
   }
+
+  public void testState() throws InterruptedException {
+
+    // initial state
+    Stopwatch s = Stopwatch.createUnstarted();
+    assertFalse(s.isRunning());
+    assertTrue(s.elapsed().isZero());
+
+
+    //unstarted -> start
+    s.start();
+    assertTrue(s.isRunning());
+    assertFalse(s.elapsed().isZero());
+
+    //start -> stop
+    s.stop();
+    assertFalse(s.isRunning());
+    assertFalse(s.elapsed().isZero());
+
+    //stop -> reset
+    s.reset();
+    assertFalse(s.isRunning());
+    assertTrue(s.elapsed().isZero());
+
+    //stop -> start
+    s.start();
+
+    //start -> start
+    assertThrows(IllegalStateException.class, () -> {s.start();});
+
+    //start -> unstarted
+    s.reset();
+    assertFalse(s.isRunning());
+    assertTrue(s.elapsed().isZero());
+
+    //unstarted -> reset
+    s.reset();
+    assertFalse(s.isRunning());
+    assertTrue(s.elapsed().isZero());
+
+    //stop -> stop
+    s.start();
+    s.stop();
+    assertThrows(IllegalStateException.class, () -> {s.stop();});
+
+    //unstarted -> stop
+    s.start();
+    s.reset();
+    assertThrows(IllegalStateException.class, () -> {s.stop();});
+
+  }
+
 }

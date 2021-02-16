@@ -401,22 +401,18 @@ public class HashCodeTest extends TestCase {
   }
 
   public void testObjectHashCodeWithSameLowOrderBytes_YuchenHu() {
-    // These will have the same first 4 bytes (all 0).
+
     byte[] bytesA = new byte[3];
     byte[] bytesB = new byte[3];
 
-    // Change only the last (5th) byte
     bytesA[2] = (byte) 0xbe;
     bytesB[2] = (byte) 0xef;
 
     HashCode hashCodeA = HashCode.fromBytes(bytesA);
     HashCode hashCodeB = HashCode.fromBytes(bytesB);
 
-    // They aren't equal...
     assertFalse(hashCodeA.equals(hashCodeB));
 
-    // But they still have the same Object#hashCode() value.
-    // Technically not a violation of the equals/hashCode contract, but...?
     assertNotEquals(hashCodeA.hashCode(), hashCodeB.hashCode());
   }
 

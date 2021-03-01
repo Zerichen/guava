@@ -20,7 +20,7 @@ import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
 import java.io.Writer;
-
+import static org.mockito.Mockito.*;
 /**
  * Unit test for {@link AppendableWriter}.
  *
@@ -127,5 +127,51 @@ public class AppendableWriterTest extends IoTestCase {
 
     // close()ing already closed writer is allowed
     writer.close();
+  }
+
+  public void testMockWriterWithDifferentMethods() throws IOException {
+    AppendableWriter writer = mock(AppendableWriter.class);
+    writer.write("Hello".toCharArray());
+    writer.write(',');
+    writer.write(0xBEEF0020); // only lower 16 bits are important
+    writer.write("Wo");
+    writer.write("Whirled".toCharArray(), 3, 2);
+    writer.write("Mad! Mad, I say", 2, 2);
+    verify(writer,times(1)).write("Hello".toCharArray());
+    verify(writer,times(1)).write(',');
+    verify(writer,times(1)).write(0xBEEF0020);
+    verify(writer,times(1)).write("Wo");
+    verify(writer,times(1)).write("Whirled".toCharArray(), 3, 2);
+    verify(writer,times(1)).write("Mad! Mad, I say", 2, 2);
+    // no more methods shall be called
+    verifyNoMoreInteractions(writer);
+  }
+
+  public void testMockWriterWithDifferentAppendMethods() throws IOException {
+    AppendableWriter writer = mock(AppendableWriter.class);
+
+    writer.append("Hello,");
+    writer.append(' ');
+    writer.append("The World Wide Web", 4, 9);
+    writer.append("!");
+
+    verify(writer,times(1)).append("Hello,");
+    verify(writer,times(1)).append(' ');
+    verify(writer,times(1)).append("The World Wide Web", 4, 9);
+    verify(writer,times(1)).append("!");
+    // no more methods shall be called
+    verifyNoMoreInteractions(writer);
+  }
+
+  public void testCloseFlushWithSpy() throws IOException {
+    StringBuilder builder = new StringBuilder();
+    Writer writer = new AppendableWriter(builder);
+    Writer spy = spy(writer);
+    spy.write("Hello");
+    // to check that flush() and close() actually gets called
+    spy.flush();
+    verify(spy).flush();
+    spy.close();
+    verify(spy).close();
   }
 }

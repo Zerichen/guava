@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  * successive readings of "now" in the same process.
  *
  * <p>In contrast, <i>wall time</i> is a reading of "now" as given by a method like
- * {@link System#currentTimeMillis()}, best represented as an {@link Instant}. Such values
+ * {@link System#currentTimeMillis()}, best represented as an {@link }. Such values
  * <i>can</i> be subtracted to obtain a {@code Duration} (such as by {@code Duration.between}), but
  * doing so does <i>not</i> give a reliable measurement of elapsed time, because wall time readings
  * are inherently approximate, routinely affected by periodic clock corrections. Because this class
@@ -257,6 +257,49 @@ public final class Stopwatch {
   }
 
   private static String abbreviate(TimeUnit unit) {
+    switch (unit) {
+      case NANOSECONDS:
+        return "ns";
+      case MICROSECONDS:
+        return "\u03bcs"; // μs
+      case MILLISECONDS:
+        return "ms";
+      case SECONDS:
+        return "s";
+      case MINUTES:
+        return "min";
+      case HOURS:
+        return "h";
+      case DAYS:
+        return "d";
+      default:
+        throw new AssertionError();
+    }
+  }
+
+  public TimeUnit dummyChooseUnit(long nanos) {
+    if (DAYS.convert(nanos, NANOSECONDS) > 0) {
+      return DAYS;
+    }
+    if (HOURS.convert(nanos, NANOSECONDS) > 0) {
+      return HOURS;
+    }
+    if (MINUTES.convert(nanos, NANOSECONDS) > 0) {
+      return MINUTES;
+    }
+    if (SECONDS.convert(nanos, NANOSECONDS) > 0) {
+      return SECONDS;
+    }
+    if (MILLISECONDS.convert(nanos, NANOSECONDS) > 0) {
+      return MILLISECONDS;
+    }
+    if (MICROSECONDS.convert(nanos, NANOSECONDS) > 0) {
+      return MICROSECONDS;
+    }
+    return NANOSECONDS;
+  }
+
+  public String dummyAbbreviate(TimeUnit unit) {
     switch (unit) {
       case NANOSECONDS:
         return "ns";

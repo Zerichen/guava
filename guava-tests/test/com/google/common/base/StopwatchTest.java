@@ -16,14 +16,15 @@
 
 package com.google.common.base;
 
-import static java.util.concurrent.TimeUnit.MICROSECONDS;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.FakeTicker;
+
+import java.sql.Time;
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import junit.framework.TestCase;
@@ -265,4 +266,39 @@ public class StopwatchTest extends TestCase {
 
   }
 
+  public void testDummyChooseUnit() {
+    Stopwatch s = new Stopwatch();
+    long base = 1L;
+    TimeUnit t1 = s.dummyChooseUnit(base);
+    assertEquals(t1, NANOSECONDS);
+    base *= 1000;
+    TimeUnit t2 = s.dummyChooseUnit(base);
+    assertEquals(t2, MICROSECONDS);
+    base *= 1000;
+    TimeUnit t3 = s.dummyChooseUnit(base);
+    assertEquals(t3, MILLISECONDS);
+    base *= 1000;
+    TimeUnit t4 = s.dummyChooseUnit(base);
+    assertEquals(t4, SECONDS);
+    base *= 60;
+    TimeUnit t5 = s.dummyChooseUnit(base);
+    assertEquals(t5, MINUTES);
+    base *= 60;
+    TimeUnit t6 = s.dummyChooseUnit(base);
+    assertEquals(t6, HOURS);
+    base *= 24;
+    TimeUnit t7 = s.dummyChooseUnit(base);
+    assertEquals(t7, DAYS);
+  }
+
+  public void testDummyAbbreviate() {
+    Stopwatch s = new Stopwatch();
+    assertEquals(s.dummyAbbreviate(NANOSECONDS), "ns");
+    assertEquals(s.dummyAbbreviate(MICROSECONDS), "\u03bcs");
+    assertEquals(s.dummyAbbreviate(MILLISECONDS), "ms");
+    assertEquals(s.dummyAbbreviate(SECONDS), "s");
+    assertEquals(s.dummyAbbreviate(MINUTES), "min");
+    assertEquals(s.dummyAbbreviate(HOURS), "h");
+    assertEquals(s.dummyAbbreviate(DAYS), "d");
+  }
 }
